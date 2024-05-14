@@ -8,8 +8,8 @@ export default function Home() {
         <div className="flex flex-col gap-8 text-center sm:w-[75%]">
           <h1 className="text-3xl sm:text-4xl lg:leading-snug lg:text-6xl font-bold leading-relaxed ">
             Start making money with the best{" "}
-            <span className="text-cyan-600">PainCalls</span> service you will
-            pop up with.
+            <span className="text-cyan-600">PainCall</span> service you will pop
+            up with.
           </h1>
           <p className="leading-relaxed sm:text-lg md:text-xl text-base">
             A great way to attract customers with our software that is easy to

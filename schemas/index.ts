@@ -1,3 +1,4 @@
+import domainFormSchema from "./domainFormSchema";
 import loginFormSchema from "./loginFormShema";
 
-export { loginFormSchema };
+export { loginFormSchema, domainFormSchema };
