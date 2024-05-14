@@ -13,6 +13,9 @@
 /.next/
 /out/
 
+
+ideas.txt
+
 # production
 /build
 
