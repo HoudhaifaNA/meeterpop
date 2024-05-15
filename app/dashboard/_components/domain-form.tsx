@@ -38,7 +38,7 @@ const DomainForm = () => {
           control={form.control}
           name="domain"
           render={({ field }) => (
-            <FormItem className="max-h-[72px] sm:w-96">
+            <FormItem className="max-h-[72px] w-full sm:w-96">
               <FormLabel>Domain</FormLabel>
               <FormControl>
                 <Input placeholder="ex: www.meetergo.com" {...field} />

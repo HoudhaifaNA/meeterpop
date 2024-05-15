@@ -6,7 +6,7 @@ import Footer from "@/components/footer";
 import { usePathname } from "next/navigation";
 
 const poppins = Poppins({
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
