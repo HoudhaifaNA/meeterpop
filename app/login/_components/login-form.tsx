@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,14 +16,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { LOGIN_DEFAULT_VALUES } from "@/constants";
 import { loginFormSchema } from "@/schemas";
+import { LoginFormValues } from "@/types";
 
 const LoginForm = () => {
-  const form = useForm<z.infer<typeof loginFormSchema>>({
+  const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: LOGIN_DEFAULT_VALUES,
   });
 
-  function onSubmit(values: z.infer<typeof loginFormSchema>) {
+  function onSubmit(values: LoginFormValues) {
     console.log(values);
   }
 

@@ -2,13 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,14 +15,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { DOMAIN_FORM_DEFAULT_VALUES } from "@/constants";
 import { domainFormSchema } from "@/schemas";
+import { DomainFormValues } from "@/types";
 
 const DomainForm = () => {
-  const form = useForm<z.infer<typeof domainFormSchema>>({
+  const form = useForm<DomainFormValues>({
     resolver: zodResolver(domainFormSchema),
     defaultValues: DOMAIN_FORM_DEFAULT_VALUES,
   });
 
-  function onSubmit(values: z.infer<typeof domainFormSchema>) {
+  function onSubmit(values: DomainFormValues) {
     console.log(values);
   }
 

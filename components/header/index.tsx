@@ -34,7 +34,7 @@ const Header = () => {
   return (
     <>
       {!isLoginPage && (
-        <header className="fixed top-0 left-0 w-full bg-cyan-50 h-24 flex items-center justify-between border-b p-child border-black/15">
+        <header className="fixed top-0 left-0 w-full z-50 bg-cyan-50 h-24 flex items-center justify-between border-b p-child border-black/15">
           <Image {...logoImgProps} alt="meeterpop logo" />
           <HeaderList />
         </header>

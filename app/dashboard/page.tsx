@@ -37,7 +37,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <main className="bg-gray-50">
+    <main className="bg-orange-50">
       <div className="p-child py-12 space-y-6">
         <div className="flex sm:items-end  gap-8 justify-between flex-col sm:flex-row">
           <DomainForm />
