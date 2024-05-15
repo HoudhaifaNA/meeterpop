@@ -3,9 +3,11 @@ import clsx from "clsx";
 import Link from "next/link";
 
 import { Button } from "../ui/button";
-import { LINKS } from "@/constants";
+import { MAIN_LINKS, CLIENT_LINKS } from "@/constants";
+import { usePathname } from "next/navigation";
 
 const HeaderList = () => {
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -52,9 +54,17 @@ const HeaderList = () => {
             : "hidden"
         )}
       >
-        {LINKS.map(({ link, title }, ind) => {
+        {MAIN_LINKS.map(({ link, title }, ind) => {
+          const isActiveLink = link === pathname;
+
           return (
-            <li className="font-medium" key={ind}>
+            <li
+              className={clsx(
+                "font-medium py-2",
+                isActiveLink && "border-b-2 border-b-cyan-600"
+              )}
+              key={ind}
+            >
               <Link href={link}>{title}</Link>
             </li>
           );
