@@ -12,6 +12,8 @@ const popupFormSchema = z.object({
     z.object({
       id: z.string(),
       isOpen: z.boolean(),
+      isDisabled: z.boolean(),
+      domain: z.string(),
       category: z.string().min(1, "Category is required"),
       icon: z
         .any()

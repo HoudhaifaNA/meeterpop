@@ -29,7 +29,7 @@ const PopupPlaceSelector = ({ id, place }: PopupPlaceSelectorProps) => {
 
       return (
         <div
-          className="w-36 flex flex-col gap-4"
+          className="w-32 sm:w-36 flex flex-col gap-4"
           key={pl}
           onClick={selectePlace}
         >

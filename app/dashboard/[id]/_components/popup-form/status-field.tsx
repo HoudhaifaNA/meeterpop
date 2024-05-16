@@ -30,7 +30,7 @@ const StatusField = ({ index }: StatusFieldProps) => {
             <RadioGroup
               onValueChange={field.onChange}
               defaultValue={field.value}
-              className="flex gap-6"
+              className="flex gap-6 flex-col sm:flex-row"
             >
               {STATUS.map((status) => {
                 return (

@@ -9,6 +9,7 @@ import { POPUPS_FORM_DEFAULT_VALUES } from "@/constants";
 import { popupFormSchema } from "@/schemas";
 
 import PopupsList from "./popups-list";
+import { Button } from "@/components/ui/button";
 
 const PopupForm = () => {
   const form = useForm<z.infer<typeof popupFormSchema>>({
@@ -27,6 +28,11 @@ const PopupForm = () => {
         className="flex px-2 flex-col gap-4 basis-3/5 overflow-y-auto"
       >
         <PopupsList />
+
+        <div className="flex items-center gap-4">
+          <Button variant="outline">Test</Button>
+          <Button type="submit">Save</Button>
+        </div>
       </form>
     </Form>
   );

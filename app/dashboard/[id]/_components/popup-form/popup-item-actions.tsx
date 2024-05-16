@@ -23,6 +23,7 @@ const PopupItemActions = ({
 }: PopupItemActionsProps) => {
   const form = useFormContext<PopupFormValues>();
   const popups = form.watch("popups");
+  const currentPopup = popups[popupNumber - 1];
 
   const deletePopup = () => {
     if (popups.length > 1) {
@@ -32,12 +33,12 @@ const PopupItemActions = ({
   };
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex sm:items-center gap-4 justify-between flex-col sm:flex-row">
       <div className="flex items-center gap-4">
         <h2 className="text-lg font-medium">Notification {popupNumber} : </h2>
-        <span className="text-sm">(www.figma.com)</span>
+        <span className="text-sm">( {currentPopup.domain} )</span>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center ml-auto sm:ml-0 gap-4">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

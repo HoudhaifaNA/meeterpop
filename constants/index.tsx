@@ -3,8 +3,9 @@ import {
   LinkItem,
   LoginFormValues,
   PopupFormValues,
+  TimingFormValues,
 } from "@/types";
-import { nanoid } from "nanoid";
+import { generatePopupItem } from "@/lib/utils";
 
 export const MAIN_LINKS: LinkItem[] = [
   { link: "#", title: "Pricing" },
@@ -34,17 +35,11 @@ export const POPUP_PLACES = [
 ] as const;
 
 export const POPUPS_FORM_DEFAULT_VALUES: PopupFormValues = {
-  popups: [
-    {
-      id: nanoid(),
-      isOpen: true,
-      category: "General",
-      icon: "",
-      sender: "",
-      title: "",
-      message: "",
-      place: "top_right",
-      status: "default",
-    },
-  ],
+  popups: [generatePopupItem()],
+};
+
+export const TIMING_FORM_DEFAULT_VALUES: TimingFormValues = {
+  startingTime: 1000,
+  intervalTime: 1000,
+  endTime: 1000,
 };

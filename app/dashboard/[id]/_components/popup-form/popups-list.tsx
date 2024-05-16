@@ -27,7 +27,7 @@ const PopupsList = () => {
         <Collapsible
           open={isOpen}
           onOpenChange={onOpenChange}
-          className="flex flex-col gap-4 bg-white rounded border-2 border-black/15 p-4 w-full"
+          className="flex flex-col gap-8 bg-white rounded border-2 border-black/15 p-4 w-full"
           key={id}
         >
           <PopupItemActions {...{ popupNumber, id, isOpen }} />
@@ -42,7 +42,11 @@ const PopupsList = () => {
     });
   };
 
-  return <>{renderPopups()}</>;
+  return (
+    <div className="border-b-2 border-b-black/35  pb-4 space-y-4">
+      {renderPopups()}
+    </div>
+  );
 };
 
 export default PopupsList;
