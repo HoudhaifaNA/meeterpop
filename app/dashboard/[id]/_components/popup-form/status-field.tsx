@@ -9,12 +9,11 @@ import {
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PopupFormValues } from "@/types";
+import { STATUS } from "@/constants";
 
 interface StatusFieldProps {
   index: number;
 }
-
-const STATUS = ["default", "worrying", "dangerous"] as const;
 
 const StatusField = ({ index }: StatusFieldProps) => {
   const form = useFormContext<PopupFormValues>();

@@ -7,6 +7,9 @@ import {
 } from "@/types";
 import { generatePopupItem } from "@/lib/utils";
 
+export const DOMAIN_REGEX =
+  /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/;
+
 export const MAIN_LINKS: LinkItem[] = [
   { link: "#", title: "Pricing" },
   { link: "#", title: "How to use" },
@@ -33,6 +36,8 @@ export const POPUP_PLACES = [
   "top_left",
   "bottom_left",
 ] as const;
+
+export const STATUS = ["default", "worrying", "dangerous"] as const;
 
 export const POPUPS_FORM_DEFAULT_VALUES: PopupFormValues = {
   popups: [generatePopupItem()],
