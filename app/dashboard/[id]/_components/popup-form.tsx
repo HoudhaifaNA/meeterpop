@@ -24,7 +24,7 @@ const PopupForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex px-2 flex-col gap-4 basis-3/5 max-h-[800px] overflow-y-auto"
+        className="flex px-2 flex-col gap-4 basis-3/5 overflow-y-auto"
       >
         <PopupsList />
       </form>
