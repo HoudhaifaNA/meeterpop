@@ -17,6 +17,9 @@ import { Input } from "@/components/ui/input";
 import { LOGIN_DEFAULT_VALUES } from "@/constants";
 import { loginFormSchema } from "@/schemas";
 import { LoginFormValues } from "@/types";
+import { handleRequestError } from "@/lib/utils";
+import notify from "@/lib/notify";
+import API from "@/lib/API";
 
 const LoginForm = () => {
   const form = useForm<LoginFormValues>({
@@ -24,8 +27,16 @@ const LoginForm = () => {
     defaultValues: LOGIN_DEFAULT_VALUES,
   });
 
-  function onSubmit(values: LoginFormValues) {
-    console.log(values);
+  async function onSubmit({ email }: LoginFormValues) {
+    try {
+      const res = await API.post("/auth/login", {
+        email: email.trim().toLowerCase(),
+      });
+
+      notify("success", res.data.message);
+    } catch (err) {
+      handleRequestError(err);
+    }
   }
 
   return (
@@ -53,7 +64,9 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          Submit
+        </Button>
       </form>
     </Form>
   );

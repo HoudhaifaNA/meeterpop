@@ -36,8 +36,8 @@ const createAndSendToken = (id: string) => {
   });
 };
 
-export const POST = withErrorHandler(
-  async (_request: NextRequest, { params }: Params) => {
+export const GET = withErrorHandler(
+  async (req: NextRequest, { params }: Params) => {
     const { User } = await getModels();
 
     // 1 - GET TOKEN FROM URL AND HASH IT AND FIND USER BY TOKEN
@@ -60,9 +60,6 @@ export const POST = withErrorHandler(
 
     await user.save();
 
-    return NextResponse.json(
-      { message: "Logged in successfully", user },
-      { status: 200 }
-    );
+    return NextResponse.redirect(`${req.nextUrl.origin}/dashboard`);
   }
 );

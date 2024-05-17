@@ -1,8 +1,4 @@
-import { promisify } from "node:util";
-
 import { type NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import jwt, { JwtPayload } from "jsonwebtoken";
 
 import getModels from "@/models";
 import AppError from "@/utils/AppError";
@@ -31,7 +27,7 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
   if (!user) user = await User.create({ email });
 
   const token = await user.createAuthToken();
-  const authLink = `${req.nextUrl.origin}/confirm/${token}`;
+  const authLink = `${req.nextUrl.origin}/api/auth/login/${token}`;
   await user.save({ validateBeforeSave: false });
   await new Email(user, authLink).sendMagicLink();
 
