@@ -11,6 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { usePopupManager } from "@/store";
 
 interface PopupItemActionsProps {
   popupNumber: number;
@@ -20,13 +21,24 @@ const PopupItemActions = ({ popupNumber }: PopupItemActionsProps) => {
   const form = useFormContext<PopupFormValues>();
   const popups = form.watch("popups");
   const currentPopup = popups[popupNumber - 1];
+  const { insertPopup } = usePopupManager();
 
+  const togglePopupVisibility = () => {
+    const modifiedPopups = popups.map((popup) => {
+      if (popup.id === currentPopup.id) {
+        popup.isDisabled = !popup.isDisabled;
+      }
+      return popup;
+    });
+    form.setValue("popups", modifiedPopups);
+  };
   const deletePopup = () => {
     if (popups.length > 1) {
       const filteredPopups = popups.filter(
         (popup) => popup.id !== currentPopup.id
       );
       form.setValue("popups", filteredPopups);
+      insertPopup("toDelete", currentPopup.id);
     }
   };
 
@@ -59,7 +71,12 @@ const PopupItemActions = ({ popupNumber }: PopupItemActionsProps) => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button type="button" variant="outline" size="icon">
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={togglePopupVisibility}
+              >
                 {currentPopup.isDisabled ? (
                   <Eye className="h-4 w-4" />
                 ) : (
@@ -68,7 +85,7 @@ const PopupItemActions = ({ popupNumber }: PopupItemActionsProps) => {
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Disable</p>
+              <p>{currentPopup.isDisabled ? "Enable" : "Disable"}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

@@ -3,62 +3,53 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useSWR from "swr";
-import { useSearchParams } from "next/navigation";
 
 import { Form } from "@/components/ui/form";
 import { popupFormSchema } from "@/schemas";
 
 import PopupsList from "./popups-list";
 import { Button } from "@/components/ui/button";
-import { fetcher } from "@/lib/API";
-import { GetUserPopups, PopupFormValues, PopupItem } from "@/types";
 import ErrorMessage from "@/app/dashboard/_components/error-message";
 import Loading from "@/app/dashboard/_components/loading";
-import { generatePopupItem } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { usePopupManager } from "@/store";
+import usePopupsSetter from "@/hooks/usePopupsSetter";
+import handleKeptPopups from "./handleKeptPopups";
+import { handleRequestError } from "@/lib/utils";
+import notify from "@/lib/notify";
+import API from "@/lib/API";
 
 const PopupForm = () => {
-  const searchParams = useSearchParams();
-  const type = searchParams.get("type");
-  const value = searchParams.get("value");
-  const isDomain = type === "domain";
-  const { data, isLoading, error } = useSWR<GetUserPopups>(
-    `/popups?type=${type}&value=${value}`,
-    fetcher
-  );
+  const { toCreate, toModify, toDelete } = usePopupManager();
 
   const form = useForm<z.infer<typeof popupFormSchema>>({
     resolver: zodResolver(popupFormSchema),
     defaultValues: { popups: [] },
   });
 
-  useEffect(() => {
-    if (type === "domain" && value && data?.popups.length === 0) {
-      form.setValue("popups", [generatePopupItem(value)]);
-    } else if (data?.popups) {
-      const popupsList = data.popups.map((pop) => {
-        const modifiablePopup: PopupItem = {
-          id: pop.id,
-          category: pop.category,
-          title: pop.title,
-          isOpen: false,
-          domain: pop.domain.name,
-          isDisabled: pop.isDisabled,
-          message: pop.message,
-          place: pop.place,
-          sender: pop.sender,
-          status: pop.status,
-        };
-        return modifiablePopup;
-      });
-      form.setValue("popups", popupsList);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(data)]);
+  const { isLoading, error, data } = usePopupsSetter(form.setValue);
 
-  function onSubmit(values: z.infer<typeof popupFormSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof popupFormSchema>) {
+    try {
+      const newPopups = values.popups.filter((p) => {
+        return toCreate.includes(p.id);
+      });
+      const updatedPopups = values.popups.filter((p) => {
+        return toModify.includes(p.id);
+      });
+
+      if (newPopups.length > 0) {
+        await handleKeptPopups(newPopups, "new");
+      }
+      if (updatedPopups.length > 0) {
+        await handleKeptPopups(updatedPopups, "update");
+      }
+      if (toDelete.length > 0) {
+        await API.delete(`/popups/${toDelete.join(",")}`);
+      }
+      notify("success", "Popups updated successfully");
+    } catch (err) {
+      handleRequestError(err);
+    }
   }
 
   const renderForm = () => {
@@ -78,7 +69,9 @@ const PopupForm = () => {
             <PopupsList />
 
             <div className="flex items-center gap-4">
-              <Button variant="outline">Test</Button>
+              <Button type="button" variant="outline">
+                Test
+              </Button>
               <Button type="submit">Save</Button>
             </div>
           </form>

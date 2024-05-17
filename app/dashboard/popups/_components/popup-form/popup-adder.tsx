@@ -5,11 +5,13 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { generatePopupItem, togglePopupByIndex } from "@/lib/utils";
 import { PopupFormValues, PopupItem } from "@/types";
+import { usePopupManager } from "@/store";
 
 interface PopupAdderProps extends Pick<PopupItem, "id"> {}
 
 const PopupAdder = ({ id }: PopupAdderProps) => {
   const searchParams = useSearchParams();
+  const { insertPopup } = usePopupManager();
   const form = useFormContext<PopupFormValues>();
 
   const popups = form.watch("popups");
@@ -20,7 +22,9 @@ const PopupAdder = ({ id }: PopupAdderProps) => {
   const addPopup = () => {
     if (isDomain && value) {
       const prevPopups = togglePopupByIndex(popups, id, false);
-      form.setValue("popups", [...prevPopups, generatePopupItem(value)]);
+      const newPopup = generatePopupItem(value);
+      insertPopup("toCreate", newPopup.id);
+      form.setValue("popups", [...prevPopups, newPopup]);
     }
   };
 

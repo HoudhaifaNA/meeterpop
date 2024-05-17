@@ -49,7 +49,7 @@ const DropzoneSpace = ({ index, id }: DropzoneProps) => {
   // Set Icon anyway, if undefined form schema will throw the error
   useEffect(() => {
     setIcon(file!);
-  }, [file]);
+  }, [file, JSON.stringify(popups)]);
 
   // Add icon on normal use case
   useEffect(() => {
@@ -70,7 +70,7 @@ const DropzoneSpace = ({ index, id }: DropzoneProps) => {
   // So we will send it to the server always as a file
   useEffect(() => {
     if (typeof icon === "string") {
-      fetch(`/attachments/${icon}`)
+      fetch(`/assets/${icon}`)
         .then((response) => response.blob())
         .then((blob) => {
           const reader = new FileReader();
@@ -106,7 +106,7 @@ const DropzoneSpace = ({ index, id }: DropzoneProps) => {
           console.error("Error fetching the image:", error);
         });
     }
-  }, [icon]);
+  }, [icon, JSON.stringify(popups)]);
 
   return (
     <FormField

@@ -62,7 +62,9 @@ const CardItem = ({ item }: CardItemProps) => {
     } else {
       return (
         <>
-          <Link href={`/dashboard?type=${groupBy}&value=${item.groupBy}`}>
+          <Link
+            href={`/dashboard/popups?type=${groupBy}&value=${item.groupBy}`}
+          >
             <h4 className="text-base font-semibold capitalize">
               {item.groupBy}
             </h4>

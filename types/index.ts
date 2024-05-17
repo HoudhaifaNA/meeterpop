@@ -69,6 +69,10 @@ export interface GetUserPopups {
   popups: PopulatedPopup[];
 }
 
+export interface GetDomain {
+  domains: DomainSchemaDB[];
+}
+
 export type GroupedItem = GetGroupedPopups["items"][number];
 
 export type LoginFormValues = z.infer<typeof loginFormSchema>;

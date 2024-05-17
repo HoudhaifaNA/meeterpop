@@ -1,12 +1,13 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const Header = () => {
-  const { id } = useParams();
+  const searchParams = useSearchParams();
+  const value = searchParams.get("value");
 
   return (
     <h1 className="text-2xl font-semibold">
-      Popup editor : <span className="text-base">( {id} )</span>
+      Popup editor : <span className="text-base">( {value} )</span>
     </h1>
   );
 };

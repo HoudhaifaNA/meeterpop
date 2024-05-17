@@ -18,22 +18,37 @@ import { Input } from "@/components/ui/input";
 import { TIMING_FORM_DEFAULT_VALUES } from "@/constants";
 import { timingFormSchema } from "@/schemas";
 import { TimingFormValues } from "@/types";
+import API from "@/lib/API";
+import notify from "@/lib/notify";
+import useMutate from "@/hooks/useMutate";
+import { handleRequestError } from "@/lib/utils";
+import useTimingSetter from "@/hooks/useTimingSetter";
 
-const TImingForm = () => {
+const TimingForm = () => {
+  const { refresh } = useMutate();
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
   const value = searchParams.get("value");
   const isDomain = type === "domain";
-
   const form = useForm<TimingFormValues>({
     resolver: zodResolver(timingFormSchema),
     defaultValues: TIMING_FORM_DEFAULT_VALUES,
     disabled: !isDomain,
   });
 
-  function onSubmit(values: TimingFormValues) {
+  useTimingSetter(form.setValue);
+
+  async function onSubmit(values: TimingFormValues) {
     if (isDomain) {
-      console.log(values);
+      try {
+        const res = await API.patch(`/domains/${value}`, values);
+
+        notify("success", res.data.message);
+        refresh(/^\/domains/);
+        refresh(/^\/popups/);
+      } catch (err) {
+        handleRequestError(err);
+      }
     }
   }
 
@@ -109,4 +124,4 @@ const TImingForm = () => {
   );
 };
 
-export default TImingForm;
+export default TimingForm;

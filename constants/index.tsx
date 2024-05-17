@@ -42,5 +42,5 @@ export const STATUS = ["default", "worrying", "dangerous"] as const;
 export const TIMING_FORM_DEFAULT_VALUES: TimingFormValues = {
   startingTime: 1000,
   intervalTime: 1000,
-  endTime: 1000,
+  endTime: 4000,
 };

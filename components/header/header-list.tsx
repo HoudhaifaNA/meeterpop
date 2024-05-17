@@ -76,7 +76,7 @@ const HeaderList = () => {
         <Button asChild>
           <li>
             <Link href={data?.user ? "/api/auth/logout" : "/login"}>
-              Start poping
+              {data?.user ? "Logout" : "Start poping"}
             </Link>
           </li>
         </Button>

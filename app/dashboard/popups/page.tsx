@@ -1,6 +1,6 @@
 import Header from "./_components/header";
 import PopupForm from "./_components/popup-form";
-import TImingForm from "./_components/timing-form";
+import TimingForm from "./_components/timing-form";
 
 const DashboardCategoryPage = () => {
   return (
@@ -9,7 +9,7 @@ const DashboardCategoryPage = () => {
         <Header />
         <div className="flex gap-4 flex-col lg:flex-row">
           <PopupForm />
-          <TImingForm />
+          <TimingForm />
         </div>
       </div>
     </main>

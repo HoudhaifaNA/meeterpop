@@ -1,3 +1,4 @@
 import useGroupBy from "./useGroupBy";
+import usePopupManager from "./usePopupsManger";
 
-export { useGroupBy };
+export { useGroupBy, usePopupManager };

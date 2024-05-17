@@ -6,10 +6,29 @@ import withErrorHandler from "@/utils/withErrorHandler";
 import { DomainSchemaDB } from "@/types";
 import protect from "@/utils/protect";
 import cleanPopups from "@/utils/cleanPopups";
+import { DOMAIN_REGEX } from "@/constants";
 
 interface Params {
   params: { id: string };
 }
+
+export const GET = withErrorHandler(
+  async (_req: NextRequest, { params }: Params) => {
+    const { id } = params;
+    const { Domain } = await getModels();
+    const currentUser = await protect();
+
+    const domains: HydratedDocument<DomainSchemaDB>[] = await Domain.find({
+      name: id,
+      owner: currentUser.id,
+    });
+
+    return NextResponse.json(
+      { message: "Domain updated successfully", domains },
+      { status: 200 }
+    );
+  }
+);
 
 export const PATCH = withErrorHandler(
   async (req: NextRequest, { params }: Params) => {
@@ -17,10 +36,23 @@ export const PATCH = withErrorHandler(
     const { name, startingTime, intervalTime, endTime } = await req.json();
     const { Domain } = await getModels();
     const currentUser = await protect();
+    let domainId = id;
+
+    if (DOMAIN_REGEX.test(id)) {
+      const domains: HydratedDocument<DomainSchemaDB>[] = await Domain.find({
+        name: id,
+        owner: currentUser.id,
+      });
+      if (domains.length > 0) {
+        console.log(domains);
+
+        domainId = domains[0].id;
+      }
+    }
 
     const updatedDomain: HydratedDocument<DomainSchemaDB> | null =
       await Domain.findByIdAndUpdate(
-        id,
+        domainId,
         {
           name,
           startingTime,
@@ -32,7 +64,7 @@ export const PATCH = withErrorHandler(
       );
 
     return NextResponse.json(
-      { message: "Domain updated successfully", domain: updatedDomain },
+      { message: "Domain updated successfully", domain: {} },
       { status: 200 }
     );
   }

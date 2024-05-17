@@ -40,10 +40,16 @@ export const GET = withErrorHandler(async (req: NextRequest) => {
 });
 
 export const POST = withErrorHandler(async (req: NextRequest) => {
-  const { Popup } = await getModels();
+  const { Popup, Domain } = await getModels();
   const form = await req.formData();
-  const domain = form.get("domain");
+  const domainName = form.get("domain");
   const currentUser = await protect();
+
+  const domainsList: HydratedDocument<DomainSchemaDB>[] = await Domain.find({
+    name: domainName,
+    owner: currentUser.id,
+  });
+  const domain = domainsList[0].id;
 
   // Extract and organize data because it is an array inside form-data
   // Edge case isDisabled string to boolean and uploads managment
@@ -86,7 +92,11 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
     await Popup.create(ownedPopups);
 
   return NextResponse.json(
-    { results: popupsList.length, popups: popupsList },
+    {
+      results: popupsList.length,
+      message: "Popups saved successfully",
+      popups: popupsList,
+    },
     { status: 201 }
   );
 });
@@ -111,7 +121,7 @@ export const PATCH = withErrorHandler(async (req: NextRequest) => {
       }
 
       if (field === "isDisabled") {
-        updatedValue = Boolean(value);
+        updatedValue = value === "true";
       } else if (field === "icon" && isFile(value)) {
         const isValidImage = value.type.split("/")[0] === "image";
         if (!isValidImage) {
@@ -150,7 +160,11 @@ export const PATCH = withErrorHandler(async (req: NextRequest) => {
   );
 
   return NextResponse.json(
-    { results: updatedPopups.length, popups: updatedPopups },
+    {
+      results: updatedPopups.length,
+      message: "Popups saved successfully",
+      popups: updatedPopups,
+    },
     { status: 200 }
   );
 });
