@@ -3,7 +3,7 @@ import { HydratedDocument } from "mongoose";
 
 import getModels from "@/models";
 import withErrorHandler from "@/utils/withErrorHandler";
-import { PopupSchemaDB } from "@/types";
+import { DomainSchemaDB, PopupSchemaDB } from "@/types";
 import protect from "@/utils/protect";
 import AppError from "@/utils/AppError";
 import { deleteFile, insertFile } from "@/utils/filesManager";
@@ -11,6 +11,33 @@ import { deleteFile, insertFile } from "@/utils/filesManager";
 function isFile(value: any): value is File {
   return Object.prototype.toString.call(value) === "[object File]";
 }
+
+export const GET = withErrorHandler(async (req: NextRequest) => {
+  const { Popup, Domain } = await getModels();
+  const currentUser = await protect();
+  let type = req.nextUrl.searchParams.get("type");
+  let value = req.nextUrl.searchParams.get("value");
+  let query: Record<string, string> = { owner: currentUser.id };
+
+  if (type === "domain") {
+    const domain: HydratedDocument<DomainSchemaDB>[] = await Domain.find({
+      name: value,
+    });
+
+    // Avoiding ObjectId error
+    if (!domain.length) {
+      return NextResponse.json({ results: 0, popups: [] }, { status: 200 });
+    }
+
+    if (domain.length) value = domain[0].id;
+  }
+
+  if (type && value) query = { [type]: value };
+
+  const popups = await Popup.find(query).populate("domain");
+
+  return NextResponse.json({ results: popups.length, popups }, { status: 200 });
+});
 
 export const POST = withErrorHandler(async (req: NextRequest) => {
   const { Popup } = await getModels();
@@ -124,6 +151,6 @@ export const PATCH = withErrorHandler(async (req: NextRequest) => {
 
   return NextResponse.json(
     { results: updatedPopups.length, popups: updatedPopups },
-    { status: 201 }
+    { status: 200 }
   );
 });

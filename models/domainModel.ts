@@ -16,9 +16,6 @@ const domainSchema = new Schema<DomainSchemaDB>(
         message: "Please, enter a valid domain",
       },
     },
-    icon: {
-      type: String,
-    },
     startingTime: {
       type: Number,
       required: [true, "Domain must have an starting time"],
