@@ -33,7 +33,7 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
   const token = await user.createAuthToken();
   const authLink = `${req.nextUrl.origin}/confirm/${token}`;
   await user.save({ validateBeforeSave: false });
-  // await new Email(user, authLink).sendMagicLink();
+  await new Email(user, authLink).sendMagicLink();
 
   return NextResponse.json(
     { message: "Email has been sent to your email address", token },
