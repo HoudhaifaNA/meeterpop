@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Types } from "mongoose";
+import { HydratedDocument, Types } from "mongoose";
 
 import {
   domainFormSchema,
@@ -16,15 +16,11 @@ export interface LinkItem {
   title: string;
 }
 
-export interface DomainGroupedItem {
-  domains: string[];
-  status: string[];
-  categories: string[];
-}
+export type GroupByType = "status" | "domain" | "category";
 
 export interface DomainSchemaDB {
+  _id: string;
   name: string;
-  icon: string;
   popups: Types.ObjectId[];
   startingTime: number;
   intervalTime: number;
@@ -50,6 +46,21 @@ export interface UserSchemaDB {
   token?: string;
   tokenExpires?: Date;
 }
+
+export interface GetDomainGrouped extends DomainSchemaDB {
+  count: number;
+}
+export interface GetCategoryGrouped {
+  _id: string;
+  count: number;
+  groupBy: string;
+}
+
+export interface GetGroupedPopups {
+  items: GetDomainGrouped[] | GetCategoryGrouped[];
+}
+
+export type GroupedItem = GetGroupedPopups["items"][number];
 
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
 export type DomainFormValues = z.infer<typeof domainFormSchema>;

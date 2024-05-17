@@ -31,7 +31,10 @@ export const PATCH = withErrorHandler(
         { new: true }
       );
 
-    return NextResponse.json({ domain: updatedDomain }, { status: 200 });
+    return NextResponse.json(
+      { message: "Domain updated successfully", domain: updatedDomain },
+      { status: 200 }
+    );
   }
 );
 

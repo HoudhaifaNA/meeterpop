@@ -7,7 +7,7 @@ const isValidDomain = (domain: string) => {
 };
 
 const domainFormSchema = z.object({
-  domain: z
+  name: z
     .string()
     .min(1, { message: "Domain is required." })
     .refine(isValidDomain, { message: "Please, enter a valid domain" }),

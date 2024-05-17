@@ -19,21 +19,29 @@ export const GET = withErrorHandler(async (req: NextRequest) => {
     {
       $group: { _id: `$${groupBy}`, count: { $sum: 1 } },
     },
+    {
+      $addFields: { groupBy: "$_id" },
+    },
   ]).exec();
 
-  const items = popups.map((popup) => {
-    let groupedItem: any = popup;
-    if (groupBy === "domain") {
-      const matchedPopup = domains.find(
-        (dom) => String(dom.id) === String(popup._id)
-      );
+  // Group popups by domain or status / category
+  const items: any[] = [];
 
-      if (matchedPopup) {
-        groupedItem = { ...matchedPopup._doc, count: popup.count };
-      }
-    }
-    return groupedItem;
-  });
+  if (groupBy === "domain") {
+    let groupedItem: any;
+    domains.forEach((dom) => {
+      const matchedPopup = popups.find(
+        (popup) => String(popup._id) === String(dom.id)
+      );
+      const count = matchedPopup ? matchedPopup.count : 0;
+      groupedItem = { ...dom._doc, count };
+      items.push(groupedItem);
+    });
+  } else {
+    popups.forEach((popup) => {
+      items.push(popup);
+    });
+  }
 
   return NextResponse.json({ results: items.length, items }, { status: 200 });
 });

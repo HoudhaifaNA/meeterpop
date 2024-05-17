@@ -3,7 +3,7 @@ import { type ClassValue, clsx } from "clsx";
 import { nanoid } from "nanoid";
 import { twMerge } from "tailwind-merge";
 
-import { PopupFormValues, PopupItem } from "@/types";
+import { GetDomainGrouped, PopupFormValues, PopupItem } from "@/types";
 import notify from "./notify";
 
 export function cn(...inputs: ClassValue[]) {
@@ -48,4 +48,8 @@ export const handleRequestError = (err: unknown) => {
     message = err.message;
   }
   notify("error", message);
+};
+
+export const isDomainGrouped = (item: any): item is GetDomainGrouped => {
+  return item.name && item.startingTime;
 };

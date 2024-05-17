@@ -18,18 +18,25 @@ import { Input } from "@/components/ui/input";
 import { DOMAIN_FORM_DEFAULT_VALUES } from "@/constants";
 import { domainFormSchema } from "@/schemas";
 import { DomainFormValues } from "@/types";
+import notify from "@/lib/notify";
+import API from "@/lib/API";
+import { handleRequestError } from "@/lib/utils";
+import useMutate from "@/hooks/useMutate";
 
 interface DomainFormProps {
   isEdit?: boolean;
+  id?: string;
   defaultValues?: DomainFormValues;
   toggleEditIntent?: Dispatch<SetStateAction<boolean>>;
 }
 
 const DomainForm = ({
   isEdit = false,
+  id,
   defaultValues = DOMAIN_FORM_DEFAULT_VALUES,
   toggleEditIntent,
 }: DomainFormProps) => {
+  const { refresh } = useMutate();
   const form = useForm<DomainFormValues>({
     resolver: zodResolver(domainFormSchema),
     defaultValues: defaultValues,
@@ -39,9 +46,23 @@ const DomainForm = ({
 
   const closeEditIntent = () => validEditableAction && toggleEditIntent(false);
 
-  function onSubmit(values: DomainFormValues) {
-    console.log(values);
-    closeEditIntent();
+  async function onSubmit({ name }: DomainFormValues) {
+    try {
+      const method = isEdit && id ? "patch" : "post";
+      const url = isEdit && id ? `/domains/${id}` : "/domains";
+
+      const res = await API[method](url, {
+        name,
+      });
+
+      notify("success", res.data.message);
+      form.reset();
+      closeEditIntent();
+      refresh(/^\/domains/);
+      refresh(/^\/popups/);
+    } catch (err) {
+      handleRequestError(err);
+    }
   }
 
   return (
@@ -52,7 +73,7 @@ const DomainForm = ({
       >
         <FormField
           control={form.control}
-          name="domain"
+          name="name"
           render={({ field }) => (
             <FormItem
               className={clsx(!isEdit && "max-h-[72px] w-full sm:w-96")}
@@ -80,6 +101,7 @@ const DomainForm = ({
             type="submit"
             className={clsx(isEdit ? "max-w-max" : "mt-auto")}
             size={isEdit ? "sm" : "default"}
+            disabled={form.formState.isSubmitting}
           >
             {isEdit ? "Edit" : "Add"}
           </Button>

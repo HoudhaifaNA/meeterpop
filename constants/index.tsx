@@ -8,7 +8,7 @@ import {
 import { generatePopupItem } from "@/lib/utils";
 
 export const DOMAIN_REGEX =
-  /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/;
+  /^www\.[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/;
 
 export const MAIN_LINKS: LinkItem[] = [
   { link: "#", title: "Pricing" },
@@ -27,7 +27,7 @@ export const LOGIN_DEFAULT_VALUES: LoginFormValues = {
 };
 
 export const DOMAIN_FORM_DEFAULT_VALUES: DomainFormValues = {
-  domain: "",
+  name: "",
 };
 
 export const POPUP_PLACES = [
