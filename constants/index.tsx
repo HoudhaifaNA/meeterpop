@@ -39,10 +39,6 @@ export const POPUP_PLACES = [
 
 export const STATUS = ["default", "worrying", "dangerous"] as const;
 
-export const POPUPS_FORM_DEFAULT_VALUES: PopupFormValues = {
-  popups: [generatePopupItem()],
-};
-
 export const TIMING_FORM_DEFAULT_VALUES: TimingFormValues = {
   startingTime: 1000,
   intervalTime: 1000,

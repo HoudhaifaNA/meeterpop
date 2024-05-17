@@ -1,0 +1,8 @@
+get the type and the value
+insert documents if there are before
+if not insert new one only if domain
+if not domain hide add button and the timing function
+if deleted add its id
+if there is before added to modified 
+if there is not add it in 
+

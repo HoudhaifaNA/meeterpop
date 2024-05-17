@@ -2,12 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
+import clsx from "clsx";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,20 +20,31 @@ import { timingFormSchema } from "@/schemas";
 import { TimingFormValues } from "@/types";
 
 const TImingForm = () => {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
+  const value = searchParams.get("value");
+  const isDomain = type === "domain";
+
   const form = useForm<TimingFormValues>({
     resolver: zodResolver(timingFormSchema),
     defaultValues: TIMING_FORM_DEFAULT_VALUES,
+    disabled: !isDomain,
   });
 
   function onSubmit(values: TimingFormValues) {
-    console.log(values);
+    if (isDomain) {
+      console.log(values);
+    }
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="bg-white rounded flex flex-1 flex-col gap-4 px-6 py-4"
+        className={clsx(
+          "bg-white rounded flex flex-1 flex-col gap-4 px-6 py-4",
+          !isDomain && "opacity-80"
+        )}
       >
         <h4 className="font-semibold text-xl">Time settings :</h4>
         <FormField
@@ -89,7 +101,9 @@ const TImingForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Save</Button>
+        <Button type="submit" disabled={!isDomain}>
+          Save
+        </Button>
       </form>
     </Form>
   );

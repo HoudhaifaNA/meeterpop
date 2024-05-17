@@ -48,7 +48,9 @@ const CardItem = ({ item }: CardItemProps) => {
             />
           ) : (
             <>
-              <Link href={`/dashboard?type=${groupBy}&value=${item.name}`}>
+              <Link
+                href={`/dashboard/popups?type=${groupBy}&value=${item.name}`}
+              >
                 <h4 className="text-base font-semibold">{item.name}</h4>
               </Link>
 

@@ -5,12 +5,15 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { MAIN_LINKS, CLIENT_LINKS } from "@/constants";
 import { usePathname } from "next/navigation";
+import useLoggedIn from "@/hooks/useLoggedIn";
 
 const HeaderList = () => {
+  const { data } = useLoggedIn();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const headerLinks = data?.user ? CLIENT_LINKS : MAIN_LINKS;
 
   useEffect(() => {
     if (isMenuOpen && document) {
@@ -54,7 +57,7 @@ const HeaderList = () => {
             : "hidden"
         )}
       >
-        {MAIN_LINKS.map(({ link, title }, ind) => {
+        {headerLinks.map(({ link, title }, ind) => {
           const isActiveLink = link === pathname;
 
           return (
@@ -72,7 +75,9 @@ const HeaderList = () => {
 
         <Button asChild>
           <li>
-            <Link href="/login">Start poping</Link>
+            <Link href={data?.user ? "/api/auth/logout" : "/login"}>
+              Start poping
+            </Link>
           </li>
         </Button>
       </ul>

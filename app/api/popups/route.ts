@@ -63,7 +63,7 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
       }
 
       if (field === "isDisabled") {
-        updatedValue = Boolean(value);
+        updatedValue = value === "true";
       } else if (field === "icon" && isFile(value)) {
         const isValidImage = value.type.split("/")[0] === "image";
 

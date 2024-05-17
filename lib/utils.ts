@@ -10,12 +10,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const generatePopupItem = (): PopupItem => {
+export const generatePopupItem = (domain: string): PopupItem => {
   return {
     id: nanoid(),
     isOpen: true,
     isDisabled: false,
-    domain: "",
+    domain,
     category: "General",
     sender: "",
     title: "",

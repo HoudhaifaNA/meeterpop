@@ -30,7 +30,7 @@ const PopupsList = () => {
           className="flex flex-col gap-8 bg-white rounded border-2 border-black/15 p-4 w-full"
           key={id}
         >
-          <PopupItemActions {...{ popupNumber, id, isOpen }} />
+          <PopupItemActions {...{ popupNumber }} />
           <CollapsibleContent className="space-y-4">
             <PopupMainInputs index={index} />
             <PopupPlaceSelector {...{ id, place }} />

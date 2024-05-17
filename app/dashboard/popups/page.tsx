@@ -2,15 +2,6 @@ import Header from "./_components/header";
 import PopupForm from "./_components/popup-form";
 import TImingForm from "./_components/timing-form";
 
-interface MetadataProps {
-  params: { id: string };
-}
-
-export async function generateMetadata({ params }: MetadataProps) {
-  const { id } = params;
-  return { title: `Meeterpop | ${id}` };
-}
-
 const DashboardCategoryPage = () => {
   return (
     <main className="bg-orange-50">

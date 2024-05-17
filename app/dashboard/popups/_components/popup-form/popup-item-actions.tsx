@@ -12,22 +12,20 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-interface PopupItemActionsProps extends Pick<PopupItem, "id" | "isOpen"> {
+interface PopupItemActionsProps {
   popupNumber: number;
 }
 
-const PopupItemActions = ({
-  popupNumber,
-  id,
-  isOpen,
-}: PopupItemActionsProps) => {
+const PopupItemActions = ({ popupNumber }: PopupItemActionsProps) => {
   const form = useFormContext<PopupFormValues>();
   const popups = form.watch("popups");
   const currentPopup = popups[popupNumber - 1];
 
   const deletePopup = () => {
     if (popups.length > 1) {
-      const filteredPopups = popups.filter((popup) => popup.id !== id);
+      const filteredPopups = popups.filter(
+        (popup) => popup.id !== currentPopup.id
+      );
       form.setValue("popups", filteredPopups);
     }
   };
@@ -45,7 +43,10 @@ const PopupItemActions = ({
               <CollapsibleTrigger asChild>
                 <Button type="button" variant="outline" size="icon">
                   <ChevronDown
-                    className={clsx("h-4 w-4", isOpen && "rotate-180")}
+                    className={clsx(
+                      "h-4 w-4",
+                      currentPopup.isOpen && "rotate-180"
+                    )}
                   />
                 </Button>
               </CollapsibleTrigger>
@@ -59,7 +60,11 @@ const PopupItemActions = ({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button type="button" variant="outline" size="icon">
-                <EyeOff className="h-4 w-4" />
+                {currentPopup.isDisabled ? (
+                  <Eye className="h-4 w-4" />
+                ) : (
+                  <EyeOff className="h-4 w-4" />
+                )}
               </Button>
             </TooltipTrigger>
             <TooltipContent>

@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 import withErrorHandler from "@/utils/withErrorHandler";
 
-export const POST = withErrorHandler(async (_request: Request) => {
+export const GET = withErrorHandler(async (request: NextRequest) => {
   cookies().delete("auth_token");
 
-  return NextResponse.json({ message: "success" }, { status: 200 });
+  return NextResponse.redirect(request.nextUrl.origin);
 });
