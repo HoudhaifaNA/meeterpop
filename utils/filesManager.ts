@@ -3,10 +3,11 @@ import { v2 as cloudinary } from "cloudinary";
 import AppError from "./AppError";
 
 cloudinary.config({
-  cloud_name: "dbhaegj2e",
-  api_key: "748321432694268",
-  api_secret: "KO3zztMXew-RZ-iGmWLbRBdQRcM",
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
 export const insertFile = async (file: File) => {
   const buffer = Buffer.from(await file.arrayBuffer());
 
