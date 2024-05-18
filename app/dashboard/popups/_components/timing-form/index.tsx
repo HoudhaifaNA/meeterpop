@@ -130,12 +130,12 @@ const TimingForm = () => {
         </Button>
 
         {isDomain && (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 max-w-full">
             <span className="text-base font-semibold">
               Click to copy to clipboard
             </span>
             <code
-              className="bg-blue-950 rounded h-32 text-white p-4 cursor-pointer"
+              className="bg-blue-950 max-w-full overflow-x-auto rounded h-32 text-white p-4 cursor-pointer"
               onClick={() => {
                 if (!isCoppied) {
                   setCoppied(copyScript());

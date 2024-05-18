@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 import { Button } from "../ui/button";
 import { MAIN_LINKS, CLIENT_LINKS } from "@/constants";
-import { usePathname } from "next/navigation";
 import useLoggedIn from "@/hooks/useLoggedIn";
 
 const HeaderList = () => {
@@ -22,6 +22,10 @@ const HeaderList = () => {
       document.body.style.overflow = "auto";
     }
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   const renderBurgerMenu = () => {
     const generatedLines = Array.from({ length: 3 });
