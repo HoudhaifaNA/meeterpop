@@ -44,7 +44,7 @@ const PopupMainInputs = ({ index }: PopupMainInputsProps) => {
         )}
       />
       <div className={clsx("rounded  p-2 space-y-2 border-2", popupBg)}>
-        <div className="flex sm:items-center flex-col sm:flex-row gap-4">
+        <div className="flex  sm:items-center flex-col sm:flex-row gap-4">
           <DropzoneSpace index={index} id={id} />
           <FormField
             control={form.control}

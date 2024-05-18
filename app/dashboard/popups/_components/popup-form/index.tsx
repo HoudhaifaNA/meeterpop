@@ -90,11 +90,18 @@ const PopupForm = () => {
             )}
             <div className="flex items-center gap-4">
               {isDomain && (
-                <Button type="button" variant="outline" onClick={onTest}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={form.formState.isSubmitting}
+                  onClick={onTest}
+                >
                   Test
                 </Button>
               )}
-              <Button type="submit">Save</Button>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                Save
+              </Button>
             </div>
           </form>
         </Form>

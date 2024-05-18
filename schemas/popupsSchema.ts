@@ -24,7 +24,7 @@ const popupFormSchema = z.object({
       sender: z.string().min(1, "Sender of notification is required"),
       title: z.string().min(1, "Title of notification is required"),
       message: z.string().min(1, "Message is required"),
-      time: z.string().min(1, "Add notification time"),
+      time: z.string().min(1, "Time"),
       place: z.enum(["top_right", "bottom_right", "top_left", "bottom_left"]),
       status: z.enum(["default", "worrying", "dangerous"]),
     })
