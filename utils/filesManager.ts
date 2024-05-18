@@ -24,7 +24,7 @@ export const insertFile = async (file: File) => {
     });
 
   try {
-    return uploadResult.url;
+    return uploadResult.secure_url;
   } catch (error: any) {
     return new AppError(error.message || "Error", 500);
   }
