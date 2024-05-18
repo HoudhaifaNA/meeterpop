@@ -9,6 +9,7 @@ const popupSchema = new Schema<PopupSchemaDB>(
     icon: { type: String, required: [true, "Popup must have a icon"] },
     title: { type: String, required: [true, "Popup must have a title"] },
     message: { type: String, required: [true, "Popup must have a message"] },
+    time: { type: String, required: [true, "Popup must have a time"] },
     place: {
       type: String,
       enum: {

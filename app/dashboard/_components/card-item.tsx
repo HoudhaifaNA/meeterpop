@@ -1,7 +1,7 @@
 import { MouseEvent, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { EllipsisVertical, Pen, Trash2 } from "lucide-react";
+import { Clipboard, EllipsisVertical, Pen, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +13,7 @@ import {
 import DeleteDialog from "./delete-dialog";
 import DomainForm from "./domain-form";
 import { GroupedItem } from "@/types";
-import { isDomainGrouped } from "@/lib/utils";
+import { copyScript, isDomainGrouped } from "@/lib/utils";
 import { useGroupBy } from "@/store";
 
 interface CardItemProps {
@@ -100,6 +100,10 @@ const CardItem = ({ item }: CardItemProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
+            <DropdownMenuItem className="text-black/500" onClick={copyScript}>
+              <Clipboard className="mr-2 h-4 w-4" />
+              <span>Copy script</span>
+            </DropdownMenuItem>
             <DropdownMenuItem
               className="text-black/500"
               onClick={onToggleEditIntent}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
@@ -21,15 +22,17 @@ import { TimingFormValues } from "@/types";
 import API from "@/lib/API";
 import notify from "@/lib/notify";
 import useMutate from "@/hooks/useMutate";
-import { handleRequestError } from "@/lib/utils";
+import { copyScript, handleRequestError } from "@/lib/utils";
 import useTimingSetter from "@/hooks/useTimingSetter";
 
 const TimingForm = () => {
   const { refresh } = useMutate();
   const searchParams = useSearchParams();
+  const [isCoppied, setCoppied] = useState(false);
   const type = searchParams.get("type");
   const value = searchParams.get("value");
   const isDomain = type === "domain";
+
   const form = useForm<TimingFormValues>({
     resolver: zodResolver(timingFormSchema),
     defaultValues: TIMING_FORM_DEFAULT_VALUES,
@@ -37,6 +40,12 @@ const TimingForm = () => {
   });
 
   useTimingSetter(form.setValue);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCoppied(false);
+    }, 1000);
+  }, [isCoppied]);
 
   async function onSubmit(values: TimingFormValues) {
     if (isDomain) {
@@ -119,6 +128,26 @@ const TimingForm = () => {
         <Button type="submit" disabled={!isDomain}>
           Save
         </Button>
+
+        {isDomain && (
+          <div className="flex flex-col gap-4">
+            <span className="text-base font-semibold">
+              Click to copy to clipboard
+            </span>
+            <code
+              className="bg-blue-950 rounded h-32 text-white p-4 cursor-pointer"
+              onClick={() => {
+                if (!isCoppied) {
+                  setCoppied(copyScript());
+                }
+              }}
+            >
+              {isCoppied
+                ? "Copied"
+                : `<script src="${location.origin}/js/script.js"></script>`}
+            </code>
+          </div>
+        )}
       </form>
     </Form>
   );

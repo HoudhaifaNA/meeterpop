@@ -21,7 +21,6 @@ export type GroupByType = "status" | "domain" | "category";
 export interface DomainSchemaDB {
   _id: string;
   name: string;
-  popups: Types.ObjectId[];
   startingTime: number;
   intervalTime: number;
   endTime: number;
@@ -34,6 +33,7 @@ export interface PopupSchemaDB {
   title: string;
   message: string;
   icon: string;
+  time: string;
   place: PlaceItem;
   status: StatusItem;
   isDisabled: boolean;

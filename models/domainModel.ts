@@ -31,13 +31,6 @@ const domainSchema = new Schema<DomainSchemaDB>(
       required: [true, "Domain must have an end time"],
       default: 4000,
     },
-    popups: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Popup",
-        required: [true, "Popup must be an id"],
-      },
-    ],
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",

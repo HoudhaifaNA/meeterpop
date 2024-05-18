@@ -14,10 +14,9 @@ function isFile(value: any): value is File {
 
 export const GET = withErrorHandler(async (req: NextRequest) => {
   const { Popup, Domain } = await getModels();
-  const currentUser = await protect();
   let type = req.nextUrl.searchParams.get("type");
   let value = req.nextUrl.searchParams.get("value");
-  let query: Record<string, string> = { owner: currentUser.id };
+  let query: Record<string, string> = {};
 
   if (type === "domain") {
     const domain: HydratedDocument<DomainSchemaDB>[] = await Domain.find({
@@ -49,6 +48,9 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
     name: domainName,
     owner: currentUser.id,
   });
+  if (domainsList.length === 0) {
+    throw new AppError("Invalid domain", 403);
+  }
   const domain = domainsList[0].id;
 
   // Extract and organize data because it is an array inside form-data

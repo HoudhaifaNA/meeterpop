@@ -4,7 +4,7 @@ import { ChevronDown, Eye, EyeOff, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { CollapsibleTrigger } from "@/components/ui/collapsible";
-import { PopupFormValues, PopupItem } from "@/types";
+import { PopupFormValues } from "@/types";
 import {
   Tooltip,
   TooltipContent,

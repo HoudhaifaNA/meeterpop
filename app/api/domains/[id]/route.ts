@@ -16,17 +16,12 @@ export const GET = withErrorHandler(
   async (_req: NextRequest, { params }: Params) => {
     const { id } = params;
     const { Domain } = await getModels();
-    const currentUser = await protect();
 
     const domains: HydratedDocument<DomainSchemaDB>[] = await Domain.find({
       name: id,
-      owner: currentUser.id,
     });
 
-    return NextResponse.json(
-      { message: "Domain updated successfully", domains },
-      { status: 200 }
-    );
+    return NextResponse.json({ domains }, { status: 200 });
   }
 );
 

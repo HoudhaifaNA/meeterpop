@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import Image from "next/image";
+import clsx from "clsx";
 
 import {
   FormField,
@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/form";
 import { PopupFormValues } from "@/types";
 import { Input } from "@/components/ui/input";
-import clsx from "clsx";
 import DropzoneSpace from "./dropezone-space";
 
 interface PopupMainInputsProps {
@@ -45,15 +44,27 @@ const PopupMainInputs = ({ index }: PopupMainInputsProps) => {
         )}
       />
       <div className={clsx("rounded  p-2 space-y-2 border-2", popupBg)}>
-        <div className="flex items-center gap-4">
+        <div className="flex sm:items-center flex-col sm:flex-row gap-4">
           <DropzoneSpace index={index} id={id} />
           <FormField
             control={form.control}
             name={`popups.${index}.sender`}
             render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem className="flex-1">
                 <FormControl>
                   <Input placeholder="Sender (source)" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={`popups.${index}.time`}
+            render={({ field }) => (
+              <FormItem className="sm:basis-28">
+                <FormControl>
+                  <Input placeholder="now" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

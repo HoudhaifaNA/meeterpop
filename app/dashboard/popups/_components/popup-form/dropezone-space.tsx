@@ -3,16 +3,10 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
+import clsx from "clsx";
 
 import { PopupFormValues, PopupItem } from "@/types";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import clsx from "clsx";
+import { FormField, FormItem, FormControl } from "@/components/ui/form";
 
 interface DropzoneProps extends Pick<PopupItem, "id"> {
   index: number;

@@ -1,5 +1,4 @@
 import API from "@/lib/API";
-import { handleRequestError } from "@/lib/utils";
 import { PopupFormValues } from "@/types";
 
 const handleKeptPopups = async (

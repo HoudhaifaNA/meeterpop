@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { UseFormSetValue } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 
@@ -6,7 +7,6 @@ import { fetcher } from "@/lib/API";
 import { GetUserPopups, PopupFormValues, PopupItem } from "@/types";
 import { generatePopupItem } from "@/lib/utils";
 import { usePopupManager } from "@/store";
-import { UseFormSetValue } from "react-hook-form";
 
 const usePopupsSetter = (setValue: UseFormSetValue<PopupFormValues>) => {
   const { insertPopup } = usePopupManager();
@@ -28,6 +28,7 @@ const usePopupsSetter = (setValue: UseFormSetValue<PopupFormValues>) => {
           id: pop.id,
           category: pop.category,
           title: pop.title,
+          time: pop.time,
           isOpen: true,
           icon: pop.icon,
           domain: pop.domain.name,

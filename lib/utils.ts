@@ -16,6 +16,7 @@ export const generatePopupItem = (domain: string): PopupItem => {
     isOpen: true,
     isDisabled: false,
     domain,
+    time: "",
     category: "General",
     sender: "",
     title: "",
@@ -52,4 +53,11 @@ export const handleRequestError = (err: unknown) => {
 
 export const isDomainGrouped = (item: any): item is GetDomainGrouped => {
   return item.name && item.startingTime;
+};
+
+export const copyScript = () => {
+  navigator.clipboard.writeText(
+    `<script src="${location.origin}/js/script.js"></script>`
+  );
+  return true;
 };

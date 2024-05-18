@@ -17,9 +17,18 @@ import handleKeptPopups from "./handleKeptPopups";
 import { handleRequestError } from "@/lib/utils";
 import notify from "@/lib/notify";
 import API from "@/lib/API";
+import usePopupsTesting from "@/store/usePopupsTesting";
+import usePopupScript from "@/hooks/usePopupScript";
+import { useSearchParams } from "next/navigation";
 
 const PopupForm = () => {
+  const searchParams = useSearchParams();
   const { toCreate, toModify, toDelete } = usePopupManager();
+  const { toggleTesting } = usePopupsTesting();
+  usePopupScript();
+
+  const type = searchParams.get("type");
+  const isDomain = type === "domain";
 
   const form = useForm<z.infer<typeof popupFormSchema>>({
     resolver: zodResolver(popupFormSchema),
@@ -52,6 +61,13 @@ const PopupForm = () => {
     }
   }
 
+  const onTest = () => {
+    toggleTesting(false);
+    setTimeout(() => {
+      toggleTesting(true);
+    }, 100);
+  };
+
   const renderForm = () => {
     if (error) {
       return (
@@ -67,11 +83,17 @@ const PopupForm = () => {
             className="flex px-2 flex-col gap-4 basis-3/5 overflow-y-auto"
           >
             <PopupsList />
-
+            {isDomain && (
+              <p className="text-sm font-semibold">
+                Please, save before and testing
+              </p>
+            )}
             <div className="flex items-center gap-4">
-              <Button type="button" variant="outline">
-                Test
-              </Button>
+              {isDomain && (
+                <Button type="button" variant="outline" onClick={onTest}>
+                  Test
+                </Button>
+              )}
               <Button type="submit">Save</Button>
             </div>
           </form>
