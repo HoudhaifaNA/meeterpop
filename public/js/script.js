@@ -7,7 +7,7 @@
   };
 
   // Change it in localhost
-  const host = "https://meeterpop.vercel.app/";
+  const host = "https://meeterpop.vercel.app";
 
   const firePopups = (popups, { startingTime, intervalTime, endTime }) => {
     setTimeout(() => {
@@ -126,9 +126,9 @@
     }
   };
 
-  let domain = location.host;
+  let domain = `www.${location.host}`;
   if (
-    ["http://localhost:3000", "https://meeterpop.vercel.app/"].includes(
+    ["http://localhost:3000", "https://meeterpop.vercel.app"].includes(
       location.origin
     )
   ) {
@@ -162,5 +162,5 @@
     };
   }
 
-  firePopups(popupsData.popups, options);
+  firePopups(popups, options);
 })();
