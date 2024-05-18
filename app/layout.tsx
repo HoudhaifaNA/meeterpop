@@ -10,7 +10,7 @@ import ProgressBar from "./progress-bar";
 import RoutingManager from "./routing-manager";
 
 const poppins = Poppins({
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
 

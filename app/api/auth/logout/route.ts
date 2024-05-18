@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 
 import withErrorHandler from "@/utils/withErrorHandler";
 
+export const dynamic = "force-dynamic";
+
 export const GET = withErrorHandler(async (request: NextRequest) => {
   cookies().delete("auth_token");
 
