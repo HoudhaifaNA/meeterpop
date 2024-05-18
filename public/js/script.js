@@ -83,7 +83,7 @@
                   gap: 0.5rem;
                 ">
                   <img
-                    src="${host}/assets/${currentPopup.icon}"
+                    src="${currentPopup.icon}"
                     width="40"
                     height="40"
                     alt="Popup Icon"

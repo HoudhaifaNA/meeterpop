@@ -64,7 +64,7 @@ const DropzoneSpace = ({ index, id }: DropzoneProps) => {
   // So we will send it to the server always as a file
   useEffect(() => {
     if (typeof icon === "string") {
-      fetch(`/assets/${icon}`)
+      fetch(icon)
         .then((response) => response.blob())
         .then((blob) => {
           const reader = new FileReader();
