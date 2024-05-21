@@ -20,6 +20,8 @@ export type NotificationType = "success" | "warn" | "error" | "info";
 
 export type GroupByType = (typeof GROUP_BY_ITEMS)[number];
 
+export type PopupType = "toCreate" | "toModify" | "toDelete";
+
 export interface DomainSchemaDB {
   _id: string;
   name: string;

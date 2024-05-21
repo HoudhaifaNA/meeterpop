@@ -1,6 +1,5 @@
+import { PopupType } from "@/types";
 import { create } from "zustand";
-
-type PopupType = "toCreate" | "toModify" | "toDelete";
 
 interface State {
   toCreate: string[];
