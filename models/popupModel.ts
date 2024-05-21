@@ -49,4 +49,5 @@ const popupSchema = new Schema<PopupSchemaDB>(
 );
 
 const Popup = models.Popup || model("Popup", popupSchema);
+
 export default Popup;
