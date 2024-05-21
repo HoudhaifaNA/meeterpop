@@ -40,6 +40,8 @@ export const GET = withErrorHandler(
   async (req: NextRequest, { params }: Params) => {
     const { User } = await getModels();
 
+    const { origin } = req.nextUrl;
+
     // 1 - GET TOKEN FROM URL AND HASH IT AND FIND USER BY TOKEN
     const { token } = params;
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
@@ -60,6 +62,6 @@ export const GET = withErrorHandler(
 
     await user.save();
 
-    return NextResponse.redirect(`${req.nextUrl.origin}/dashboard`);
+    return NextResponse.redirect(`${origin}/dashboard`);
   }
 );

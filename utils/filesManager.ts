@@ -34,7 +34,8 @@ export const deleteFile = async (fileName: string) => {
   try {
     // Extract id from url
     const paths = fileName.split("/");
-    // id ====> ID.png/jpg/jpeg
+
+    // id ====> ID.(png/jpg/jpeg)
     const id = paths[paths.length - 1].split(".")[0];
 
     await cloudinary.api
