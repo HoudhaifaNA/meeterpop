@@ -1,15 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import useSWR from "swr";
 
 import { fetcher } from "@/lib/API";
 import useMutate from "./useMutate";
+import { GetLoggedInUser } from "@/types";
 
 const useLoggedIn = () => {
   const pathname = usePathname();
-  const [url, setUrl] = useState<string | null>("/auth/login");
-  const { data, error, isLoading } = useSWR<{ user: any }>(url, fetcher);
   const [redirectPath, setRedirectPath] = useState<string>();
+  const [url, setUrl] = useState<string | null>("/auth/login");
+  const { data, error, isLoading } = useSWR<GetLoggedInUser>(url, fetcher);
   const { refresh } = useMutate();
 
   useEffect(() => {
@@ -25,7 +27,6 @@ const useLoggedIn = () => {
     }
 
     refresh(/^\/auth/);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, error, isLoading, data]);
 
   return { error, isLoading, data, redirectPath };

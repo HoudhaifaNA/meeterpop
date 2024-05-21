@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { UseFormSetValue } from "react-hook-form";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
@@ -8,6 +9,7 @@ import { GetDomain, TimingFormValues } from "@/types";
 
 const useTimingSetter = (setValue: UseFormSetValue<TimingFormValues>) => {
   const searchParams = useSearchParams();
+
   const type = searchParams.get("type");
   const value = searchParams.get("value");
   const endpoint = type === "domain" ? `/domains/${value}` : null;
@@ -16,13 +18,12 @@ const useTimingSetter = (setValue: UseFormSetValue<TimingFormValues>) => {
   useEffect(() => {
     if (data && data?.domains.length > 0) {
       const { domains } = data;
+      const { intervalTime, startingTime, endTime } = domains[0];
 
-      setValue("intervalTime", domains[0].intervalTime);
-      setValue("startingTime", domains[0].startingTime);
-      setValue("endTime", domains[0].endTime);
+      setValue("intervalTime", intervalTime);
+      setValue("startingTime", startingTime);
+      setValue("endTime", endTime);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(data)]);
 
   return { data, isLoading, error };

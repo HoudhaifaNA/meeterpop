@@ -73,6 +73,12 @@ export interface GetDomain {
   domains: DomainSchemaDB[];
 }
 
+type User = Pick<HydratedDocument<UserSchemaDB>, "id" | "email">;
+
+export interface GetLoggedInUser {
+  user: User;
+}
+
 export type GroupedItem = GetGroupedPopups["items"][number];
 
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
