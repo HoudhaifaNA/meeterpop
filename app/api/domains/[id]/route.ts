@@ -1,80 +1,64 @@
-import { type NextRequest, NextResponse } from "next/server";
-import { HydratedDocument } from "mongoose";
+import { type NextRequest, NextResponse } from 'next/server';
 
-import getModels from "@/models";
-import withErrorHandler from "@/utils/withErrorHandler";
-import { DomainSchemaDB } from "@/types";
-import protect from "@/utils/protect";
-import cleanPopups from "@/utils/cleanPopups";
-import { DOMAIN_REGEX } from "@/constants";
+import getModels from '@/models';
+import withErrorHandler from '@/utils/withErrorHandler';
+import cleanPopups from '@/utils/cleanPopups';
+import protect from '@/utils/protect';
+import AppError from '@/utils/AppError';
+import { DomainQueriedItem, DomainSchemaDB } from '@/types';
 
 interface Params {
   params: { id: string };
 }
 
-export const GET = withErrorHandler(
-  async (_req: NextRequest, { params }: Params) => {
-    const { id } = params;
-    const { Domain } = await getModels();
+export const GET = withErrorHandler(async (_req: NextRequest, { params }: Params) => {
+  const { Domain } = await getModels();
 
-    const domains: HydratedDocument<DomainSchemaDB>[] = await Domain.find({
-      name: id,
-    });
+  const { id } = params;
 
-    return NextResponse.json({ domains }, { status: 200 });
+  const domains: DomainQueriedItem[] = await Domain.find({ name: id });
+
+  return NextResponse.json({ domains }, { status: 200 });
+});
+
+export const PATCH = withErrorHandler(async (req: NextRequest, { params }: Params) => {
+  const currentUser = await protect();
+  const { Domain } = await getModels();
+
+  const { name, startingTime, intervalTime, endTime } = await req.json();
+  // Mask name as id ===> /api/domains/www.meetergo.com
+  const { id } = params;
+
+  const domainBody: Partial<DomainSchemaDB> = {
+    name,
+    startingTime,
+    intervalTime,
+    endTime,
+    owner: currentUser.id,
+  };
+
+  const query = { name: id, owner: currentUser.id };
+
+  const updatedDomain: DomainQueriedItem | null = await Domain.findOneAndUpdate(query, domainBody, {
+    new: true,
+  });
+
+  if (!updatedDomain) {
+    throw new AppError("Domain doesn't exist", 404);
   }
-);
 
-export const PATCH = withErrorHandler(
-  async (req: NextRequest, { params }: Params) => {
-    const { id } = params;
-    const { name, startingTime, intervalTime, endTime } = await req.json();
-    const { Domain } = await getModels();
-    const currentUser = await protect();
-    let domainId = id;
+  return NextResponse.json({ message: 'Domain updated successfully', domain: updatedDomain }, { status: 200 });
+});
 
-    if (DOMAIN_REGEX.test(id)) {
-      const domains: HydratedDocument<DomainSchemaDB>[] = await Domain.find({
-        name: id,
-        owner: currentUser.id,
-      });
-      if (domains.length > 0) {
-        console.log(domains);
+export const DELETE = withErrorHandler(async (_req: NextRequest, { params }: Params) => {
+  await protect();
+  const { Domain, Popup } = await getModels();
 
-        domainId = domains[0].id;
-      }
-    }
+  const { id } = params;
 
-    const updatedDomain: HydratedDocument<DomainSchemaDB> | null =
-      await Domain.findByIdAndUpdate(
-        domainId,
-        {
-          name,
-          startingTime,
-          intervalTime,
-          endTime,
-          owner: currentUser.id,
-        },
-        { new: true }
-      );
+  await Domain.findByIdAndDelete(id);
 
-    return NextResponse.json(
-      { message: "Domain updated successfully", domain: {} },
-      { status: 200 }
-    );
-  }
-);
+  await cleanPopups(Popup, { domain: id });
 
-export const DELETE = withErrorHandler(
-  async (_req: NextRequest, { params }: Params) => {
-    const { id } = params;
-    const { Domain, Popup } = await getModels();
-    await protect();
-
-    await Domain.findByIdAndDelete(id);
-
-    await cleanPopups(Popup, { domain: id });
-
-    return new Response(null, { status: 204 });
-  }
-);
+  return new Response(null, { status: 204 });
+});
