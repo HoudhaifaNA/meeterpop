@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-type NotificationType = "success" | "warn" | "error" | "info";
+import { NotificationType } from "@/types";
 
 const notify = (type: NotificationType, message: string) => {
   toast[type](<span className="text-sm font-medium">{message}</span>, {

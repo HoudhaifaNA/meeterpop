@@ -16,6 +16,8 @@ export interface LinkItem {
   title: string;
 }
 
+export type NotificationType = "success" | "warn" | "error" | "info";
+
 export type GroupByType = (typeof GROUP_BY_ITEMS)[number];
 
 export interface DomainSchemaDB {
