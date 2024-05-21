@@ -1,14 +1,16 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import HeaderList from "./header-list";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+
+import HeaderList from "./header-list";
 
 const Header = () => {
   const hasRendered = useRef(false);
   const pathname = usePathname();
   const [windowWidth, setWindowWidth] = useState<number>();
+
   const isSmallDevice = windowWidth && windowWidth < 400;
   const isLoginPage = pathname === "/login";
 

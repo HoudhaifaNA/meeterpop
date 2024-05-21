@@ -7,7 +7,7 @@ import {
   popupFormSchema,
   timingFormSchema,
 } from "@/schemas";
-import { POPUP_PLACES, STATUS } from "@/constants";
+import { GROUP_BY_ITEMS, POPUP_PLACES, STATUS } from "@/constants";
 
 type PlaceItem = (typeof POPUP_PLACES)[number];
 type StatusItem = (typeof STATUS)[number];
@@ -16,7 +16,7 @@ export interface LinkItem {
   title: string;
 }
 
-export type GroupByType = "status" | "domain" | "category";
+export type GroupByType = (typeof GROUP_BY_ITEMS)[number];
 
 export interface DomainSchemaDB {
   _id: string;

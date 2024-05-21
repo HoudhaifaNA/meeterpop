@@ -2,10 +2,8 @@ import {
   DomainFormValues,
   LinkItem,
   LoginFormValues,
-  PopupFormValues,
   TimingFormValues,
 } from "@/types";
-import { generatePopupItem } from "@/lib/utils";
 
 export const DOMAIN_REGEX =
   /^www\.[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/;
@@ -16,7 +14,7 @@ export const MAIN_LINKS: LinkItem[] = [
   { link: "#", title: "FAQ" },
 ];
 
-export const CLIENT_LINKS: LinkItem[] = [
+export const LOGGED_IN_LINKS: LinkItem[] = [
   { link: "/dashboard", title: "Dashboard" },
 ];
 

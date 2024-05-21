@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 import { Button } from "../ui/button";
-import { MAIN_LINKS, CLIENT_LINKS } from "@/constants";
+import { MAIN_LINKS, LOGGED_IN_LINKS } from "@/constants";
 import useLoggedIn from "@/hooks/useLoggedIn";
 
 const HeaderList = () => {
@@ -13,13 +13,18 @@ const HeaderList = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const headerLinks = data?.user ? CLIENT_LINKS : MAIN_LINKS;
+
+  const isAuthenticated = data?.user;
+  const headerLinks = isAuthenticated ? LOGGED_IN_LINKS : MAIN_LINKS;
+  const btnLink = isAuthenticated ? "/api/auth/logout" : "/login";
+  const btnText = isAuthenticated ? "Logout" : "Start poping";
 
   useEffect(() => {
+    const bodyStyle = document.body.style;
     if (isMenuOpen && document) {
-      document.body.style.overflow = "hidden";
+      bodyStyle.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto";
+      bodyStyle.overflow = "auto";
     }
   }, [isMenuOpen]);
 
@@ -79,9 +84,7 @@ const HeaderList = () => {
 
         <Button asChild>
           <li>
-            <Link href={data?.user ? "/api/auth/logout" : "/login"}>
-              {data?.user ? "Logout" : "Start poping"}
-            </Link>
+            <Link href={btnLink}>{btnText}</Link>
           </li>
         </Button>
       </ul>
