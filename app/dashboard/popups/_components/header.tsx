@@ -6,9 +6,10 @@ const Header = () => {
   const { value } = useGroupedParams();
 
   return (
-    <h1 className='text-2xl font-semibold'>
-      Popup editor : <span className='text-base'>( {value} )</span>
-    </h1>
+    <div className='flex flex-col gap-2 sm:flex-row sm:items-center'>
+      <span className='text-2xl font-semibold'>Popup editor :</span>
+      <span className='text-base'>( {value} )</span>
+    </div>
   );
 };
 

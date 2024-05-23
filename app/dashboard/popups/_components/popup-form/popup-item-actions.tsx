@@ -38,7 +38,7 @@ const PopupItemActions = ({ popupNumber }: PopupItemActionsProps) => {
 
   return (
     <div className='flex flex-col justify-between gap-4 md:flex-row md:items-center'>
-      <div className='flex items-center gap-2 whitespace-nowrap md:gap-4'>
+      <div className='flex flex-col gap-2 whitespace-nowrap sm:flex-row sm:items-center md:gap-4'>
         <h2 className='text-lg font-medium'>Notification {popupNumber} : </h2>
         <span className='text-sm'>( {currentPopup.domain} )</span>
       </div>
