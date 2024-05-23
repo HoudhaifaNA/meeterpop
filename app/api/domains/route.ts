@@ -57,7 +57,7 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
 
   const { name } = await req.json();
 
-  const newDomain: HydratedDocument<DomainSchemaDB> = await Domain.create({ name, owner: currentUser.id });
+  const newDomain: DomainQueriedItem = await Domain.create({ name, owner: currentUser.id });
 
   return NextResponse.json({ message: 'Domain created successfully', domain: newDomain }, { status: 201 });
 });

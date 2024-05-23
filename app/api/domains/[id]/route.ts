@@ -5,8 +5,8 @@ import withErrorHandler from '@/utils/withErrorHandler';
 import cleanPopups from '@/utils/cleanPopups';
 import protect from '@/utils/protect';
 import AppError from '@/utils/AppError';
-import { DomainQueriedItem, DomainSchemaDB } from '@/types';
 import { DOMAIN_REGEX } from '@/constants';
+import { DomainQueriedItem, DomainSchemaDB } from '@/types';
 
 interface Params {
   params: { id: string };

@@ -82,6 +82,14 @@ export type GroupedItem = GetGroupedPopups['items'][number];
 
 export type DomainQueriedItem = HydratedDocument<DomainSchemaDB>;
 
+export const isDomainGroupedItem = (item: any): item is GetDomainGrouped => {
+  return item.name && item.startingTime;
+};
+
+export const isFile = (value: any): value is File => {
+  return Object.prototype.toString.call(value) === '[object File]';
+};
+
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
 export type DomainFormValues = z.infer<typeof domainFormSchema>;
 export type PopupFormValues = z.infer<typeof popupFormSchema>;

@@ -1,9 +1,9 @@
-import { type NextRequest } from "next/server";
+import { type NextRequest } from 'next/server';
 
-import getModels from "@/models";
-import withErrorHandler from "@/utils/withErrorHandler";
-import protect from "@/utils/protect";
-import cleanPopups from "@/utils/cleanPopups";
+import getModels from '@/models';
+import withErrorHandler from '@/utils/withErrorHandler';
+import protect from '@/utils/protect';
+import cleanPopups from '@/utils/cleanPopups';
 
 interface Params {
   params: {
@@ -11,14 +11,16 @@ interface Params {
   };
 }
 
-export const DELETE = withErrorHandler(
-  async (_req: NextRequest, { params }: Params) => {
-    const { ids } = params;
-    const { Popup } = await getModels();
-    await protect();
+export const DELETE = withErrorHandler(async (_req: NextRequest, { params }: Params) => {
+  await protect();
+  const { Popup } = await getModels();
 
-    await cleanPopups(Popup, { _id: { $in: ids.split(",") } });
+  const { ids } = params;
 
-    return new Response(null, { status: 204 });
-  }
-);
+  // ids will be in form 664cd3e623e312d36b2f4746,664cd3e623e312d36b2f4796,664cd3e623e312d36b2f4746
+  const idsList = ids.split(',');
+
+  await cleanPopups(Popup, { _id: { $in: idsList } });
+
+  return new Response(null, { status: 204 });
+});
