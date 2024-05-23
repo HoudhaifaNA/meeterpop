@@ -6,6 +6,7 @@ import cleanPopups from '@/utils/cleanPopups';
 import protect from '@/utils/protect';
 import AppError from '@/utils/AppError';
 import { DomainQueriedItem, DomainSchemaDB } from '@/types';
+import { DOMAIN_REGEX } from '@/constants';
 
 interface Params {
   params: { id: string };
@@ -28,6 +29,14 @@ export const PATCH = withErrorHandler(async (req: NextRequest, { params }: Param
   const { name, startingTime, intervalTime, endTime } = await req.json();
   // Mask name as id ===> /api/domains/www.meetergo.com
   const { id } = params;
+  const query: Record<string, any> = { owner: currentUser.id };
+
+  // If id is domain or ObjectID we will attach it to the query
+  if (DOMAIN_REGEX.test(id)) {
+    query.name = id;
+  } else {
+    query._id = id;
+  }
 
   const domainBody: Partial<DomainSchemaDB> = {
     name,
@@ -36,8 +45,6 @@ export const PATCH = withErrorHandler(async (req: NextRequest, { params }: Param
     endTime,
     owner: currentUser.id,
   };
-
-  const query = { name: id, owner: currentUser.id };
 
   const updatedDomain: DomainQueriedItem | null = await Domain.findOneAndUpdate(query, domainBody, {
     new: true,
