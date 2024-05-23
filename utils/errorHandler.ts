@@ -13,6 +13,7 @@ const handleDuplicateFieldsDB = (err: any) => {
   const message = `Duplicate field value: ${value}. Please use another value!`;
   return new AppError(message, 400);
 };
+
 const handleValidationErrorDB = (err: any) => {
   const errors = Object.values(err.errors).map((el: any) => el.message);
 
@@ -57,7 +58,7 @@ const errorHandler = (err: AppError | any) => {
     if (error.name === 'JsonWebTokenError') error = handleJWTError();
     if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
 
-    sendErrorProd(error);
+    return sendErrorProd(error);
   }
 };
 
