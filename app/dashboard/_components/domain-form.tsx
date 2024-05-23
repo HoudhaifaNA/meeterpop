@@ -10,11 +10,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { DOMAIN_FORM_DEFAULT_VALUES } from '@/constants';
 import { domainFormSchema } from '@/schemas';
-import { DomainFormValues } from '@/types';
 import notify from '@/lib/notify';
 import API from '@/lib/API';
 import { handleRequestError } from '@/lib/utils';
 import useMutate from '@/hooks/useMutate';
+import { DomainFormValues } from '@/types';
 
 interface DomainFormProps {
   isEdit?: boolean;

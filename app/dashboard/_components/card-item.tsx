@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import DeleteDialog from './delete-dialog';
 import DomainForm from './domain-form';
-import { GroupedItem, isDomainGroupedItem } from '@/types';
 import { copyScript } from '@/lib/utils';
 import { useGroupBy } from '@/store';
+import { GroupedItem, isDomainGroupedItem } from '@/types';
 
 interface CardItemProps {
   item: GroupedItem;

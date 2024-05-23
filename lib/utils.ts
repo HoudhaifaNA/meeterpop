@@ -3,8 +3,8 @@ import { type ClassValue, clsx } from 'clsx';
 import { nanoid } from 'nanoid';
 import { twMerge } from 'tailwind-merge';
 
-import { GetDomainGrouped, PopupFormValues, PopupItem } from '@/types';
 import notify from './notify';
+import { PopupFormValues, PopupItem } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

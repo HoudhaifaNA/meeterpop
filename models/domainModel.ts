@@ -1,7 +1,7 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models } from 'mongoose';
 
-import { DomainSchemaDB } from "@/types";
-import { DOMAIN_REGEX } from "@/constants";
+import { DOMAIN_REGEX } from '@/constants';
+import { DomainSchemaDB } from '@/types';
 
 const domainSchema = new Schema<DomainSchemaDB>(
   {
@@ -13,28 +13,28 @@ const domainSchema = new Schema<DomainSchemaDB>(
         validator: function (val: string) {
           return DOMAIN_REGEX.test(val);
         },
-        message: "Please, enter a valid domain",
+        message: 'Please, enter a valid domain',
       },
     },
     startingTime: {
       type: Number,
-      required: [true, "Domain must have an starting time"],
+      required: [true, 'Domain must have an starting time'],
       default: 1000,
     },
     intervalTime: {
       type: Number,
-      required: [true, "Domain must have an interval time"],
+      required: [true, 'Domain must have an interval time'],
       default: 1000,
     },
     endTime: {
       type: Number,
-      required: [true, "Domain must have an end time"],
+      required: [true, 'Domain must have an end time'],
       default: 4000,
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "User",
-      required: [true, "Domain must have an owner"],
+      ref: 'User',
+      required: [true, 'Domain must have an owner'],
     },
   },
   {
@@ -44,6 +44,6 @@ const domainSchema = new Schema<DomainSchemaDB>(
   }
 );
 
-const Domain = models.Domain || model("Domain", domainSchema);
+const Domain = models.Domain || model('Domain', domainSchema);
 
 export default Domain;

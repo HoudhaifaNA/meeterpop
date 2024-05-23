@@ -1,46 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
-import { UseFormSetValue } from "react-hook-form";
-import { useSearchParams } from "next/navigation";
-import useSWR from "swr";
+import { useEffect } from 'react';
+import { UseFormSetValue } from 'react-hook-form';
+import useSWR from 'swr';
 
-import { fetcher } from "@/lib/API";
-import { GetUserPopups, PopupFormValues, PopupItem } from "@/types";
-import { generatePopupItem } from "@/lib/utils";
-import { usePopupManager } from "@/store";
+import { fetcher } from '@/lib/API';
+import { GetUserPopups, PopupFormValues, PopupItem } from '@/types';
+import { generatePopupItem } from '@/lib/utils';
+import { usePopupManager } from '@/store';
+import useGroupedParams from './useGroupedParams';
 
 const usePopupsSetter = (setValue: UseFormSetValue<PopupFormValues>) => {
   const { insertPopup } = usePopupManager();
-  const searchParams = useSearchParams();
+  const { type, value, isDomain } = useGroupedParams();
 
-  const type = searchParams.get("type");
-  const value = searchParams.get("value");
   const endpoint = `/popups?type=${type}&value=${value}`;
   const { data, isLoading, error } = useSWR<GetUserPopups>(endpoint, fetcher);
 
   useEffect(() => {
-    const isDomainGrouped = type === "domain" && value;
     const haveNoPopups = data?.popups.length === 0;
-    if (isDomainGrouped && haveNoPopups) {
-      const newPopup = generatePopupItem(value);
-      insertPopup("toCreate", newPopup.id);
-      setValue("popups", [newPopup]);
+    if (isDomain && haveNoPopups) {
+      const newPopup = generatePopupItem(value!);
+      setValue('popups', [newPopup]);
+      insertPopup('toCreate', newPopup.id);
     } else if (data?.popups) {
       const popupsList = data.popups.map((pop) => {
-        const {
-          id,
-          category,
-          time,
-          title,
-          message,
-          icon,
-          domain,
-          isDisabled,
-          place,
-          sender,
-          status,
-        } = pop;
-        insertPopup("toModify", id);
+        const { id, category, time, title, message, icon, domain, isDisabled, place, sender, status } = pop;
+
+        insertPopup('toModify', id);
 
         const modifiablePopup: PopupItem = {
           id,
@@ -59,7 +45,7 @@ const usePopupsSetter = (setValue: UseFormSetValue<PopupFormValues>) => {
         return modifiablePopup;
       });
 
-      setValue("popups", popupsList);
+      setValue('popups', popupsList);
     }
   }, [JSON.stringify(data)]);
 

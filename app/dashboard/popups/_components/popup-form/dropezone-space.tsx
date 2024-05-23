@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { useDropzone } from "react-dropzone";
-import { useFormContext } from "react-hook-form";
-import clsx from "clsx";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useDropzone } from 'react-dropzone';
+import { useFormContext } from 'react-hook-form';
+import clsx from 'clsx';
 
-import { PopupFormValues, PopupItem } from "@/types";
-import { FormField, FormItem, FormControl } from "@/components/ui/form";
+import { FormField, FormItem, FormControl } from '@/components/ui/form';
+import { PopupFormValues, PopupItem } from '@/types';
 
-interface DropzoneProps extends Pick<PopupItem, "id"> {
+interface DropzoneProps extends Pick<PopupItem, 'id'> {
   index: number;
 }
 
@@ -17,11 +17,11 @@ const DropzoneSpace = ({ index, id }: DropzoneProps) => {
   const [file, setFile] = useState<File>();
   const [base64, setBase64] = useState<string>();
   const { getInputProps, getRootProps, acceptedFiles } = useDropzone({
-    accept: { "image/*": [".png", ".jpeg", ".jpg", ".webp"] },
+    accept: { 'image/*': ['.png', '.jpeg', '.jpg', '.webp'] },
     multiple: false,
   });
 
-  const popups = form.watch("popups");
+  const popups = form.watch('popups');
   const currentPopup = popups[index];
   const { icon } = currentPopup;
 
@@ -33,7 +33,7 @@ const DropzoneSpace = ({ index, id }: DropzoneProps) => {
       return popup;
     });
 
-    form.setValue("popups", updatedPopups);
+    form.setValue('popups', updatedPopups);
   };
 
   const resetFile = () => {
@@ -53,7 +53,7 @@ const DropzoneSpace = ({ index, id }: DropzoneProps) => {
       reader.readAsDataURL(file);
 
       reader.onload = function () {
-        if (typeof reader.result === "string") {
+        if (typeof reader.result === 'string') {
           setBase64(reader.result);
         }
       };
@@ -63,18 +63,17 @@ const DropzoneSpace = ({ index, id }: DropzoneProps) => {
   // Add icon on (edit) use case it will be string from attachments before ex: /attachments/gmail-2323941sdaad23.png
   // So we will send it to the server always as a file
   useEffect(() => {
-    if (typeof icon === "string") {
+    if (typeof icon === 'string') {
       fetch(icon)
         .then((response) => response.blob())
         .then((blob) => {
           const reader = new FileReader();
 
           reader.onload = function () {
-            if (typeof reader.result === "string") {
+            if (typeof reader.result === 'string') {
               const base64Data = reader.result;
 
-              const [, contentType, data] =
-                /^data:(.*);base64,(.*)$/.exec(base64Data) || [];
+              const [, contentType, data] = /^data:(.*);base64,(.*)$/.exec(base64Data) || [];
 
               if (contentType && data) {
                 const byteCharacters = atob(data);
@@ -97,7 +96,7 @@ const DropzoneSpace = ({ index, id }: DropzoneProps) => {
           reader.readAsDataURL(blob);
         })
         .catch((error) => {
-          console.error("Error fetching the image:", error);
+          console.error('Error fetching the image:', error);
         });
     }
   }, [icon, JSON.stringify(popups)]);
@@ -107,22 +106,18 @@ const DropzoneSpace = ({ index, id }: DropzoneProps) => {
       control={form.control}
       name={`popups.${index}.icon`}
       render={({ fieldState }) => (
-        <FormItem className="space-y-3">
+        <FormItem className='space-y-3'>
           <FormControl>
             <div
               className={clsx(
-                "relative min-w-16 min-h-16 max-w-16 max-h-16 cursor-pointer border-2 rounded",
-                fieldState.error ? "border-red-500" : "border-black/20"
+                'relative max-h-16 min-h-16 min-w-16 max-w-16 cursor-pointer rounded border-2',
+                fieldState.error ? 'border-red-500' : 'border-black/20'
               )}
               onClick={resetFile}
               {...getRootProps()}
             >
-              <input {...getInputProps()} className="hidden" />
-              <Image
-                src={file && base64 ? base64 : "/placeholder.png"}
-                fill
-                alt={file?.name || `Popup Icon`}
-              />
+              <input {...getInputProps()} className='hidden' />
+              <Image src={file && base64 ? base64 : '/placeholder.png'} fill alt={file?.name || `Popup Icon`} />
             </div>
           </FormControl>
         </FormItem>

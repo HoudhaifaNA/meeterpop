@@ -1,6 +1,6 @@
-import { isFile } from '@/types';
 import AppError from './AppError';
 import { insertFile } from './filesManager';
+import { isFile } from '@/types';
 
 const managePopupsFormData = async (form: FormData, isInsertable: boolean) => {
   const popups: Record<string, any>[] = [];

@@ -1,11 +1,10 @@
-import { FilterQuery, HydratedDocument, Model } from "mongoose";
+import { FilterQuery, HydratedDocument, Model } from 'mongoose';
 
-import { PopupSchemaDB } from "@/types";
-import { deleteFile } from "./filesManager";
+import { deleteFile } from './filesManager';
+import { PopupSchemaDB } from '@/types';
 
 const cleanPopups = async (Popup: Model<any>, query: FilterQuery<any>) => {
-  const popupsToDelete: HydratedDocument<PopupSchemaDB>[] | null =
-    await Popup.find(query);
+  const popupsToDelete: HydratedDocument<PopupSchemaDB>[] | null = await Popup.find(query);
 
   await Popup.deleteMany(query);
 
